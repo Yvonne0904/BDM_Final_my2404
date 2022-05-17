@@ -97,4 +97,4 @@ distance_res = join_df1.withColumn('weighted_distance',weight_disUdf('poi_point'
 grouped_df = distance_res.groupby('date','poi_cbg').agg(
     F.sum('people_number'),
     (F.sum('weighted_distance')/F.sum('people_number')).alias('weighted_distance')
-).groupBy("poi_cbg").pivot('date').sum('weighted_distance').sort('poi_cbg').write.option("header",True).csv(sys.argv[1])
+).groupBy("poi_cbg").pivot('date').sum('weighted_distance').withColumnRenamed('poi_cbg','cbg_fips').sort('cbg_fips').write.option("header",True).csv(sys.argv[1])
